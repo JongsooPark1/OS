@@ -238,7 +238,7 @@ boolean testAndSet(boolean target) {
   return rv;
 }
 
-``
+```
 
 * exchange 명령어
 
