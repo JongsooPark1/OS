@@ -140,6 +140,36 @@ Window Size : Working Set을 설정할 때 t에서 델타t까지 설정하는데
 
 소유라는 개념이 있어 뮤텍스를 소유하고 있는 쓰레드만이 해제할 수 있는 권한이 있음
 
+
+
+\- Semaphore
+
+\- count 값을 가지고 있다.
+
+\- count 값이 1인 Semaphore를 Binary semaphore라고 한다.
+
+\- up, down으로 lock을 잡고 푼다.
+
+\- task가 이미 사용 중이 Semaphore를 얻으려고 하면, Semaphore는 해당 task를 wait queue에 넣고 sleep상태로 만든다.
+
+\- Semaphore가 사용 가능해 지면, wait queue의 task를 한 깨우고, 이 task가 Semaphore를 사용하게 된다.
+
+
+
+\- Mutex
+
+\- Binary semaphore와 유사하게 동작한다.
+
+\- 성능이 semaphore보다 좋고, interface가 간단하다.
+
+\- count 값을 관리할 필요가 없기 때문에 Semaphore보다 간단하다.
+
+\- 사용상 제약 사항이 있다. (Mutex를 얻은 곳에서만 Mutex를 해제할 수 있다.)
+
+\- lock, unlock으로 얻고 해제 한다.
+
+\- Mutex를 lock하고 있는 동안에는 Process 종료가 불가능하다.
+
 }
 
 무한 대기와 교착 상태 비교 : 무한 대기는 오랜 시간 후에라도(외부적 조치 없어도) 무한 대기로부터 벗어나 서비스를 받을 수 있지만, 교착 상태는 불가능하다
@@ -374,7 +404,7 @@ Mapping 과정은 Paging과 전반적으로 비슷하다. 다른 점은 메모�
 
 4. 교체 정책
 
-메모리에 빈 프레에밍 없을 때 적재될 페이지를 위해 적재된 페이지 중 어떤 것에 교체 될 것인가
+메모리에 빈 프레임이 없을 때 적재될 페이지를 위해 적재된 페이지 중 어떤 것에 교체 될 것인가
 
 * 최적 기법(Optimal or Min) : 미래에 참조될 때까지의 시간이 가장 긴 페이지를 선택. 현실적으로 불가능
 
