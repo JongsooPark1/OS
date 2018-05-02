@@ -484,19 +484,30 @@ public class BlockingProsumer {
 
 
 
-* 식사하는 철학자 문제
-
-  language : C
-
-  ![22](./dining1.png)
-
-
-
-​	![33](./dining2.png)
-
 ### 모니터
 
 - 고급 언어의 설계 구조물로서, 개발자의 코드를 상호배제 하게끔 만든 추상화된 데이터 형태이다
+
+***Example***
+
+* 식사하는 철학자 문제
+
+![111](./dining11.jpg)
+
+![112](./dining12.jpg)
+
+![113](./dining13.jpg)
+
+- 식사하는 철학자 문제(위와 같은 방식인가?)
+
+  language : C
+
+  ![22](/Users/PJS/Desktop/github/os/dining1.png)
+
+
+
+​	![33](/Users/PJS/Desktop/github/os/dining2.png)
+
 
 
 ### 메모리 관리
