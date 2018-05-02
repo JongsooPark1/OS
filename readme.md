@@ -68,7 +68,7 @@ Swap : 프로세스가 메모리 공간을 뺏기고 디스크로 나가는 것(
 
 바쁜 대기 : = Spinlock
 
-교착 상태 : 서로 다른 둘 이상의 프로세스가 상대 프로세스가 차지하고 있는 자원을 무한 대기하고 있는 상태
+교착 상태(Deadlock) : 서로 다른 둘 이상의 프로세스가 상대 프로세스가 차지하고 있는 자원을 무한 대기하고 있는 상태
 
 기아 상태 : 프로세스의 우선순위가 낮아서 원하는 자원을 할당 받지 못하는 상태
 
@@ -208,7 +208,7 @@ number[i] = 0;                     // 임계영역 사용 완료. 차례를 기�
 위의 3가지 알고리즘은 운영체제의 특별한 지원 없이, 프로세스 간 협력을 통해 상호배제를 실현하는 것이므로 실행 시의 부하가 크며, 실수로 인한 오류의 가능성도 높다. 임계영역의 중복 진입을 막기 위해 while문을 계속 도는데 이것은 CPU를 가동하였으나 유용한 곳에 사용하지 못하고 낭비하는 결과를 초래한다(실제로는 아무일도 하지 않기보단 접근이 가능한지 무한 체크한다) - Spinlock
 
 
-**** 아래는 하드웨어 기법 ****
+***아래는 하드웨어 기법***
 
 
 * testAndSet 명령어
@@ -271,7 +271,7 @@ static void main() {
 
 
 
-### 병행 프로세스와 동기화2
+### 병행 프로세스와 동기화(추가)
 
 ------
 
@@ -394,9 +394,109 @@ Semaphore가 사용 가능해 지면, wait queue의 task를 한 깨우고, 이 t
 
 
 
+***Example***
+
+* 생산자 - 소비자 문제
+
+  language : C
+
+  버퍼가 비어 있을 때는 소비자가, 버퍼가 꽉 차있을 때는 (더 이상 저장할 공간이 없으므로) 생산자가 기다려야 하는 동기화도 자연스럽게 포함되어 있다
+
+  ​
+
+![11](./producer&consumer.png)
+
+
+
+​	language : java(blockingQueue라는 개념 필요하다)
+
+​	http://blog.ggaman.com/926 참조
+
+```java
+import java.util.Random;  
+import java.util.concurrent.ArrayBlockingQueue;  
+import java.util.concurrent.BlockingQueue;  
+ 
+ 
+public class BlockingProsumer {  
+    private static BlockingQueue<Integer> queue = new ArrayBlockingQueue<Integer>(3);  
+      
+    public static void main(String[] args) {  
+        Consumer c1 = new Consumer("1", queue); c1.start();  
+        Consumer c2 = new Consumer("2", queue); c2.start();  
+        Consumer c3 = new Consumer("3", queue); c3.start();  
+          
+        Producer p1 = new Producer(queue);  p1.start();  
+    }  
+      
+    // 생산자. - 무언가를 열심히 만들어 낸다.  
+    static class Producer extends Thread {  
+        // INDEX  
+        private volatile static int i = 1;  
+          
+        private BlockingQueue<Integer> queue;  
+          
+        public Producer(BlockingQueue<Integer> queue) {  
+            this.queue = queue;  
+        }  
+          
+        public void run() {  
+            // 임의의 시간마다 데이터를 넣어 준다.  
+            while(true) {  
+                try {  
+                    Thread.sleep(new Random().nextInt(500));  
+                    // 수정사항 - offer에서 put으로 변경
+                    // 데이터를 넣고 나면 알아서 notify시켜 준다. 
+                    queue.put(i++); 
+                } catch (InterruptedException e) {  
+                    e.printStackTrace();  
+                }  
+  
+            }  
+        }  
+    }  
+      
+      
+    // 소비자.. 생산해 낸 것을 열심히 사용하자.  
+    static class Consumer extends Thread {  
+        private BlockingQueue<Integer> queue;  
+        private String name;  
+        public Consumer(String name, BlockingQueue<Integer> queue) {  
+            this.name = name;  
+            this.queue = queue;  
+        }  
+          
+        public void run() {  
+            while ( true ) {  
+                try {  
+                    // queue에 data가 없으면 알아서 wait하고 있다.  
+                    Integer index = queue.take();  
+                    System.err.println("Consumer : " + name + "\tIndex : " + index);  
+                } catch (InterruptedException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+    }  
+      
+}  
+```
+
+
+
+* 식사하는 철학자 문제
+
+  language : C
+
+  ![22](./dining1.png)
+
+
+
+​	![33](./dining2.png)
+
 ### 모니터
 
-- 고급 언어의 설계 구조물로서, 개발자의 코드를 상호배제 하게끔 만든 추상화된 데이터 형태이다.
+- 고급 언어의 설계 구조물로서, 개발자의 코드를 상호배제 하게끔 만든 추상화된 데이터 형태이다
 
 
 ### 메모리 관리
