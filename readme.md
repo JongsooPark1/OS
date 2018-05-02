@@ -294,13 +294,17 @@ static void main() {
 #### Requirements(해결을 위한 기본조건)
 
 - Mutual Exclusion(상호 배제)
-  프로세스 P1이 Critical Section에서 실행중이라면, 다른 프로세스들은 그들이 가진 Critical Section에서 실행될 수 없다.
+  프로세스 P1이 Critical Section에서 실행중이라면, 다른 프로세스들은 그들이 가진 Critical Section에서 실행될 수 없다
 
 - Progress(진행)
-  Critical Section에서 실행중인 프로세스가 없고, 별도의 동작이 없는 프로세스들만 Critical Section 진입 후보로서 참여될 수 있다.
+
+  임계 영역 안에서 실행하고 있는 프로세스가 없는 경우, 임계 영역을 실행하고자 하는 프로세스는 반드시 임계 영역을 실행할 수 있어야 한다. 이를 만족하면 진행 조건을 만족한다고 할 수 있다
+
+  ​
 
 - Bounded Waiting(한정된 대기)
-  P1가 Critical Section에 진입 신청 후 부터 받아들여질 때가지, 다른 프로세스들이 Critical Section에 진입하는 횟수는 제한이 있어야 한다.
+
+  임계 영역을 요청한 프로세스는 무한히 대기하면 안된다. 즉, 제한된 대기 시간을 가져야 한다. 이를 만족하면 한정 대기 조건을 만족한다고 할 수 있다
 
   ​
 
