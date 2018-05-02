@@ -320,11 +320,7 @@ lock을 반환 할때는 release()를 호출합니다.
 
 ![img](http://cfile30.uf.tistory.com/image/9949BC485A30D9132E8296)
 
-함수의 코드를 살펴보면 이전에 배운 test_and_set()과 비슷한 것을 알 수 있습니다.
 
-지금까지 설명한 구현방식의 단점은 Busy Waiting (바쁜 대기)을 해야한다는 것입니다. 임계구역에 들어가기 위해서 계속해서 acquire()를 호출하는 반복문을 실행합니다. lock이 가용해지기를 기다리면서 프로세스가 계속 반복 회전하고 있기 때문에 spinlock이라고 부르기도 합니다. busy waiting은 CPU cycle을 낭비하게 됩니다.
-
-mutex lock이랑 비슷하지만, 보다 정교하게 동기화 할 수 있는 Semaphore에 대해 알아보겠습니다.
 
 #### 한계
 
@@ -339,6 +335,15 @@ mutex lock이랑 비슷하지만, 보다 정교하게 동기화 할 수 있는 S
 운영체제에서는 종종 카운팅 세마포어, 이진 세마포어를 구분합니다. 여기서 이진 세마포어는 0과 1를 가지고 동작하고, mutex lock과 유사하게 동작합니다.
 
 ![img](http://cfile27.uf.tistory.com/image/99131C395A30DB5107DB0C)   
+
+```java
+// V(S)라고도 함
+signal(S) {
+    s++;
+}
+```
+
+
 
 카운팅 세마포어에 대해 알아보겠습니다. 세마포어(S)는 프로세스가 임계구역에 들어가려할때(wait() 호출할때) 값이 감소하고, 임계구역의 작업을 끝내고 lock을 반납할때 (signal() 호출할때) 값이 증가합니다. 만약 세마포어(S)가 0이 된다면 모든 자원들이 프로세스들에의해 모두 사용중이라는것을 나타냅니다. 이후 자원을 사용하려면 세마포어(S)가 0보다 커지기를 기다려야 합니다.
 
@@ -383,7 +388,7 @@ Mutex를 lock하고 있는 동안에는 Process 종료가 불가능하다.
 
 up, down으로 lock을 잡고 푼다.
 
-task가 이미 사용 중이 Semaphore를 얻으려고 하면, Semaphore는 해당 task를 wait queue에 넣고 sleep상태로 만든다
+task가 이미 사용 중인 Semaphore를 얻으려고 하면, Semaphore는 해당 task를 wait queue에 넣고 sleep상태로 만든다
 
 Semaphore가 사용 가능해 지면, wait queue의 task를 한 깨우고, 이 task가 Semaphore를 사용하게 된다.
 
