@@ -502,11 +502,11 @@ public class BlockingProsumer {
 
   language : C
 
-  ![22](/Users/PJS/Desktop/github/os/dining1.png)
+  ![22](./dining1.png)
 
 
 
-​	![33](/Users/PJS/Desktop/github/os/dining2.png)
+​	![33](./dining2.png)
 
 
 
