@@ -1,4 +1,4 @@
-##Operating System
+## Operating System
 
 > 사용자가 컴퓨터를 손쉽게 이용할 수 있도록 해 주는 프로그램으로서 하드웨어와 사용자의 가교 역할을 한다
 
