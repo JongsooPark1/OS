@@ -53,7 +53,7 @@ Swap : 프로세스가 메모리 공간을 뺏기고 디스크로 나가는 것(
 
 경쟁 상태(Race Condition) : 프로세스들이 공유 데이터에 대해 서로 접근을 시도하는 상황
 
-상호 배제(Mutual Exclusion, Mutex) : 한 번에 하나의 프로세스만이 임계 영역에 들어가야 함
+상호 배제(Mutual Exclusion, mutex) : 한 번에 하나의 프로세스만이 임계 영역에 들어가야 함
 
 임계 영역(Critical Section) : 임계 자원에 대해 접근하고 실행하는 프로그램 내의 코드 부분
 
@@ -297,6 +297,8 @@ static void main() {
 
 세마포보다 한 차원 높은 구조. 이유는 발생할 수 있는 오류를 줄일 수 있게 시스템에서 제공되는 언어 수준의 구조이기 때문
 
+
+
 </br>
 
 </br>
@@ -390,12 +392,6 @@ signal(S) {
 
 </br>
 
-#### Deadlock(교착상태)
-
-- 세마포가 Ready Queue를 가지고 있고, 둘 이상의 프로세스가 Critical Section 진입을 무한정 기다리고 있고, Critical Section 에서 실행되는 프로세스는 진입 대기 중인 프로세스가 실행되야만 빠져나올 수 있는 상황을 지칭한다.
-
-</br>
-
 #### Mutex vs Semaphore ###
 
 </br>
@@ -422,7 +418,7 @@ Mutex를 lock하고 있는 동안에는 Process 종료가 불가능하다.
 
 프로세스 간 동기화(프로세스 간 동기화 가능)
 
-일정의 카운터라는 개념이 있어 주어진 수 만큼 자원에 접근이 가능(count 값이 1인 Semaphore를 Binary semaphore라고 한다)
+일정의 카운터라는 개념이 있어 주어진 수 만큼 자원에 접근이 가능(count 값이 1인 Semaphore를 Binary semaphore라고 한다, 일종의 mutex)
 
 소유라는 개념이 없으므로 세마포어를 소유하지 않는 쓰레드도 해제 가능
 
@@ -431,6 +427,18 @@ up, down으로 lock을 잡고 푼다.
 task가 이미 사용 중인 Semaphore를 얻으려고 하면, Semaphore는 해당 task를 wait queue에 넣고 sleep상태로 만든다
 
 Semaphore가 사용 가능해 지면, wait queue의 task를 한 깨우고, 이 task가 Semaphore를 사용하게 된다.
+
+
+
+#### Semaphore vs Monitor
+
+모니터에서 상호 배제를 달성하는 데 사용되는 코드는 단일 장소에 있으며 더 구조화되어 있으며 세마포어 코드는 대기 및 신호 함수 호출로 배포됩니다. 또한 세마포어를 구현할 때 실수를하는 것은 매우 쉽지만 모니터를 구현할 때 실수를 할 가능성은 거의 없습니다. 또한 모니터는 조건 변수를 사용하지만 세마포어는 그렇지 않습니다.
+
+</br>
+
+참조 : mutex, semaphore, monitor 차이
+
+http://www.jpstory.net/2015/03/02/mutex-semaphore-monitor/
 
 </br>
 
